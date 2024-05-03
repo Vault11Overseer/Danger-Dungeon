@@ -18,7 +18,7 @@ moving_up = False
 moving_down = False
 
 player_image = pygame.image.load("assets/images/characters/elf/idle/0.png").convert_alpha() 
-
+player_image = pygame.transform.scale(player_image, (player_image.get_width() * constants.SCALE,player_image.get_height * constants.SCALE))
 # CREATE PLAYER
 player = Character(100, 100, player_image)
 
