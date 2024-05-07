@@ -1,6 +1,8 @@
 import pygame
+from pygame.sprite import GroupSingle
 import constants
 from character import Character
+from weapon import Weapon
 
 pygame.init()
 
@@ -22,15 +24,39 @@ def scale_image(image, scale):
   w = image.get_width()
   h = image.get_height()
   return pygame.transform.scale(image, (w * scale, h * scale))
-  
-   
 
-player_image = pygame.image.load("assets/images/characters/elf/idle/0.png").convert_alpha() 
-player_image = scale_image(player_image, constants.SCALE)
+# LOAD WEAPON IMAGES
+bowImage = scale_image(pygame.image.load("assets/images/weapons/bow.png").convert_alpha(), constants.WEAPON_SCALE)
+arrowImage = scale_image(pygame.image.load("assets/images/weapons/arrow.png").convert_alpha(), constants.WEAPON_SCALE)
+
+# LOAD CHARACTER IMAGES
+mob_animations = []
+mob_types = ["elf", "imp", "goblin", "muddy", "tiny_zombie", "big_demon"]
+for mob in mob_types:
+  
+  # LIST OF IMAGES
+  animation_list = []
+  animation_types = ["idle", "run"]
+  
+  for animation in animation_types:
+    # RESET TEMPORARY LIST OF IMAGES
+    temp_list = []
+    
+    for i in range(4):
+      img = pygame.image.load(f"assets/images/characters/{mob}/{animation}/{i}.png").convert_alpha() 
+      img = scale_image(img, constants.SCALE)
+      temp_list.append(img)
+    animation_list.append(temp_list)
+  mob_animations.append(animation_list)
 
 # CREATE PLAYER
-player = Character(100, 100, player_image)
+player = Character(100, 100, mob_animations, 0)
 
+# CREATE PLAYERS Weapon
+bow = Weapon(bowImage, arrowImage)
+
+# CREATE SPRITE GROUPS
+arrow_group = pygame.sprite.Group()
 
 
 # MAIN GAME LOOP
@@ -57,8 +83,18 @@ while run:
   # UPDATE PLAYER POSITION
   player.move(dx, dy)
 
+  # UPDATE player
+  player.update()
+  arrow = bow.update(player)
+  if arrow:
+    arrow_group.add(arrow)
+
+  print(arrow_group)
+  arrow_group.draw(screen)
+
   # DRAW PLAYER ON SCRREN
   player.draw(screen)
+  bow.draw(screen)
 
   # EVENT HANDLER
   for event in pygame.event.get():
