@@ -3,6 +3,7 @@ from pygame.sprite import GroupSingle
 import constants
 from character import Character
 from weapon import Weapon
+# from damageText import DamageText
 
 pygame.init()
 
@@ -51,6 +52,11 @@ for mob in mob_types:
       temp_list.append(img)
     animation_list.append(temp_list)
   mob_animations.append(animation_list)
+
+healthEmpty = scale_image(pygame.image.load("assets/images/items/heart_empty.png").convert_alpha(), constants.ITEM_SCALE)
+healthHalf = scale_image(pygame.image.load("assets/images/items/heart_half.png").convert_alpha(), constants.ITEM_SCALE)
+healthFull = scale_image(pygame.image.load("assets/images/items/heart_full.png").convert_alpha(), constants.ITEM_SCALE)
+
 
 # DAMAGE TEXT CLASS
 class DamageText(pygame.sprite.Sprite):
