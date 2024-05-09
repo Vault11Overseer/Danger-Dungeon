@@ -6,6 +6,7 @@ class Character():
     def __init__(self, x, y, health, mob_animations, charType):
         self.flip = False
         self.charType = charType
+        self.score = 0
         self.animation_list = mob_animations[charType]
         self.frameIndex = 0
         self.running = False
@@ -15,7 +16,7 @@ class Character():
         self.updateTime = pygame.time.get_ticks()
       
         self.image = self.animation_list[self.action][self.frameIndex]
-        self.rect = pygame.Rect(0,0,40,40)
+        self.rect = pygame.Rect(0,0,constants.TILE_SIZE,constants.TILE_SIZE)
         self.rect.center = (x,y)
 
     def move(self, dx, dy):

@@ -1,9 +1,11 @@
 import pygame
+from pygame.display import set_allow_screensaver
 from pygame.sprite import GroupSingle
 import constants
 from character import Character
 from weapon import Weapon
 # from damageText import DamageText
+from items import Item
 
 pygame.init()
 
@@ -32,6 +34,17 @@ def scale_image(image, scale):
 # LOAD WEAPON IMAGES
 bowImage = scale_image(pygame.image.load("assets/images/weapons/bow.png").convert_alpha(), constants.WEAPON_SCALE)
 arrowImage = scale_image(pygame.image.load("assets/images/weapons/arrow.png").convert_alpha(), constants.WEAPON_SCALE)
+healthEmpty = scale_image(pygame.image.load("assets/images/items/heart_empty.png").convert_alpha(), constants.ITEM_SCALE)
+healthHalf = scale_image(pygame.image.load("assets/images/items/heart_half.png").convert_alpha(), constants.ITEM_SCALE)
+healthFull = scale_image(pygame.image.load("assets/images/items/heart_full.png").convert_alpha(), constants.ITEM_SCALE)
+
+# COIN IMAGES
+coinImages = []
+for x in range(4):
+  img = scale_image(pygame.image.load(f"assets/images/items/coin_f{x}.png").convert_alpha(), constants.ITEM_SCALE)
+  coinImages.append(img)
+
+red_potion = scale_image(pygame.image.load("assets/images/items/potion_red.png").convert_alpha(), constants.POTION_SCALE)
 
 # LOAD CHARACTER IMAGES
 mob_animations = []
@@ -53,10 +66,40 @@ for mob in mob_types:
     animation_list.append(temp_list)
   mob_animations.append(animation_list)
 
-healthEmpty = scale_image(pygame.image.load("assets/images/items/heart_empty.png").convert_alpha(), constants.ITEM_SCALE)
-healthHalf = scale_image(pygame.image.load("assets/images/items/heart_half.png").convert_alpha(), constants.ITEM_SCALE)
-healthFull = scale_image(pygame.image.load("assets/images/items/heart_full.png").convert_alpha(), constants.ITEM_SCALE)
+# FUNTION FOR OUTPUTTING TEXT TO THE SCREEN
+def drawText(text, font, textColor, x, y):
+  img = font.render(text, True, textColor)
+  screen.blit(img, (x,y))
+  
+# FUNCTION FOR DISPLAYING GAME INFO
+def draw_info():
+  pygame.draw.rect(screen, constants.PANEL, (0,0, constants.SCREEN_WIDTH, 50))
+  pygame.draw.line(screen, constants.WHITE, (0,50), (constants.SCREEN_WIDTH, 50))
+  healthHalfDrawn = False
+  for i in range(5):
+    if player.health >= ((i + 1) * 20):
+      screen.blit(healthFull, (10 + i * 50, 0))
+    elif (player.health % 20 > 0) and healthHalfDrawn == False:
+      screen.blit(healthHalf, (10 + i * 50, 0))
+      healthHalfDrawn = True
+    else:
+      screen.blit(healthEmpty, (10 + i * 50, 0))
 
+  # SHOW SCORE
+  drawText(f"X{player.score}", font, constants.WHITE, constants.SCREEN_WIDTH - 100, 15)
+
+world_data = [
+  [7,7,7,7,7],
+  [7,0,1,2,7],
+  [7,0,1,2,7],
+  [7,0,1,2,7],
+  [7,7,7,7,7],
+]
+
+def drawGrid():
+  for x in range(30):
+    pygame.draw.line(screen, constants.WHITE, (x * constants.TILE_SIZE, 0), (x * constants.TILE_SIZE, constants.SCREEN_HEIGHT))
+    pygame.draw.line(screen, constants.WHITE, (0, x * constants.TILE_SIZE), (constants.SCREEN_WIDTH, x * constants.TILE_SIZE))
 
 # DAMAGE TEXT CLASS
 class DamageText(pygame.sprite.Sprite):
@@ -76,7 +119,7 @@ class DamageText(pygame.sprite.Sprite):
       self.kill()
 
 # CREATE PLAYER
-player = Character(100, 100,100, mob_animations, 0)
+player = Character(100, 100,70, mob_animations, 0)
 
 # CREATE ENEMY
 enemy = Character(200,300,100, mob_animations, 1)
@@ -94,6 +137,16 @@ damage_text_group = pygame.sprite.Group()
 # CREATE SPRITE GROUPS
 arrow_group = pygame.sprite.Group()
 
+itemGroup = pygame.sprite.Group()
+
+scoreCoin = Item(constants.SCREEN_WIDTH - 115, 23, 0, coinImages)
+itemGroup.add(scoreCoin)
+
+potion = Item(200, 200, 1,[red_potion])
+itemGroup.add(potion)
+coin = Item(400,400, 0, coinImages)
+itemGroup.add(coin)
+
 
 
 # MAIN GAME LOOP
@@ -104,6 +157,8 @@ while run:
   clock.tick(constants.FPS)
   # CHANGE BACKGROUND COLOR
   screen.fill(constants.BG)
+
+  drawGrid()
 
   # CALCULATE PLAYER MOVEWMENT
   dx = 0
@@ -134,7 +189,7 @@ while run:
       damageText = DamageText(damagePos.centerx, damagePos.centery, str(damage), constants.RED)
       damage_text_group.add(damageText)
   damage_text_group.update()
-  
+  itemGroup.update(player)
 
 
   # DRAW PLAYER ON SCRREN
@@ -145,9 +200,10 @@ while run:
   for arrow in arrow_group:
     arrow.draw(screen)
   damage_text_group.draw(screen)
-
-
-  print(enemy.health)
+  # print(enemy.health)
+  itemGroup.draw(screen)
+  draw_info()
+  scoreCoin.draw(screen)
   # EVENT HANDLER
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
