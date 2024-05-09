@@ -19,6 +19,9 @@ moving_right = False
 moving_up = False
 moving_down = False
 
+# DEFINE FONT
+font = pygame.font.Font("assets/fonts/AtariClassic.ttf", 20)
+
 # HELPER FUNCTION TO SCALE IMAGE
 def scale_image(image, scale):
   w = image.get_width()
@@ -49,14 +52,42 @@ for mob in mob_types:
     animation_list.append(temp_list)
   mob_animations.append(animation_list)
 
+# DAMAGE TEXT CLASS
+class DamageText(pygame.sprite.Sprite):
+  def __init__(self, x, y, damage, color):
+    pygame.sprite.Sprite.__init__(self)
+    self.image = font.render(damage, True, color)
+    self.rect = self.image.get_rect()
+    self.rect.center = (x,y)
+    self.counter = 0
+
+  def update(self):
+    # MOVE DAMAGE TEXT UP
+    self.rect.y -= 1
+    # DELETE THE COUNTER AFTER A FEW SECONDS
+    self.counter += 1
+    if self.counter >30:
+      self.kill()
+
 # CREATE PLAYER
-player = Character(100, 100, mob_animations, 0)
+player = Character(100, 100,100, mob_animations, 0)
+
+# CREATE ENEMY
+enemy = Character(200,300,100, mob_animations, 1)
 
 # CREATE PLAYERS Weapon
 bow = Weapon(bowImage, arrowImage)
 
+
+
+# CREATE ENEMY GROUPS
+enemy_group = []
+enemy_group.append(enemy)
+# CREATE DAMAGE TEXT
+damage_text_group = pygame.sprite.Group()
 # CREATE SPRITE GROUPS
 arrow_group = pygame.sprite.Group()
+
 
 
 # MAIN GAME LOOP
@@ -79,23 +110,38 @@ while run:
     dy = -constants.SPEED
   if moving_down == True:
     dy = constants.SPEED 
-    
+
+  
   # UPDATE PLAYER POSITION
   player.move(dx, dy)
 
   # UPDATE player
+  for enemy in enemy_group:
+    enemy.update()
   player.update()
   arrow = bow.update(player)
   if arrow:
     arrow_group.add(arrow)
+  for arrow in arrow_group:
+    damage, damagePos = arrow.update(enemy_group)
+    if damage:
+      damageText = DamageText(damagePos.centerx, damagePos.centery, str(damage), constants.RED)
+      damage_text_group.add(damageText)
+  damage_text_group.update()
+  
 
-  print(arrow_group)
-  arrow_group.draw(screen)
 
   # DRAW PLAYER ON SCRREN
+  for enemy in enemy_group:
+    enemy.draw(screen)
   player.draw(screen)
   bow.draw(screen)
+  for arrow in arrow_group:
+    arrow.draw(screen)
+  damage_text_group.draw(screen)
 
+
+  print(enemy.health)
   # EVENT HANDLER
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
