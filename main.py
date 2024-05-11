@@ -6,6 +6,7 @@ from character import Character
 from weapon import Weapon
 # from damageText import DamageText
 from items import Item
+from world import World
 
 pygame.init()
 
@@ -45,6 +46,14 @@ for x in range(4):
   coinImages.append(img)
 
 red_potion = scale_image(pygame.image.load("assets/images/items/potion_red.png").convert_alpha(), constants.POTION_SCALE)
+
+# TILE MAP
+tileList = []
+for x in range(constants.TILE_TYPES):
+  tileImage = pygame.image.load(f"assets/images/tiles/{x}.png").convert_alpha()
+  tileImage = pygame.transform.scale(tileImage, (constants.TILE_SIZE, constants.TILE_SIZE))
+  tileList.append(tileImage)
+
 
 # LOAD CHARACTER IMAGES
 mob_animations = []
@@ -88,18 +97,23 @@ def draw_info():
   # SHOW SCORE
   drawText(f"X{player.score}", font, constants.WHITE, constants.SCREEN_WIDTH - 100, 15)
 
-world_data = [
-  [7,7,7,7,7],
-  [7,0,1,2,7],
+worldData = [
+  [7,7,7,7,7,7],
+  [7,0,1,2,3,7],
   [7,0,1,2,7],
   [7,0,1,2,7],
   [7,7,7,7,7],
 ]
 
-def drawGrid():
-  for x in range(30):
-    pygame.draw.line(screen, constants.WHITE, (x * constants.TILE_SIZE, 0), (x * constants.TILE_SIZE, constants.SCREEN_HEIGHT))
-    pygame.draw.line(screen, constants.WHITE, (0, x * constants.TILE_SIZE), (constants.SCREEN_WIDTH, x * constants.TILE_SIZE))
+
+world = World()
+world.processData(worldData, tileList)
+
+
+# def drawGrid():
+#   for x in range(30):
+#     pygame.draw.line(screen, constants.WHITE, (x * constants.TILE_SIZE, 0), (x * constants.TILE_SIZE, constants.SCREEN_HEIGHT))
+#     pygame.draw.line(screen, constants.WHITE, (0, x * constants.TILE_SIZE), (constants.SCREEN_WIDTH, x * constants.TILE_SIZE))
 
 # DAMAGE TEXT CLASS
 class DamageText(pygame.sprite.Sprite):
@@ -158,7 +172,7 @@ while run:
   # CHANGE BACKGROUND COLOR
   screen.fill(constants.BG)
 
-  drawGrid()
+  # drawGrid()
 
   # CALCULATE PLAYER MOVEWMENT
   dx = 0
@@ -193,6 +207,7 @@ while run:
 
 
   # DRAW PLAYER ON SCRREN
+  world.draw(screen)
   for enemy in enemy_group:
     enemy.draw(screen)
   player.draw(screen)
