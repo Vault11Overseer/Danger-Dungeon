@@ -17,6 +17,11 @@ pygame.display.set_caption("Danger Dungeon")
 # MAINTAIN FRAMERATE
 clock = pygame.time.Clock()
 
+# DEFINE GAME VARIABLES
+level1 = 1
+
+
+
 # DEFINE PLAYER MOVEMENT
 moving_left = False
 moving_right = False
@@ -97,13 +102,14 @@ def draw_info():
   # SHOW SCORE
   drawText(f"X{player.score}", font, constants.WHITE, constants.SCREEN_WIDTH - 100, 15)
 
-worldData = [
-  [7,7,7,7,7,7],
-  [7,0,1,2,3,7],
-  [7,0,1,2,7],
-  [7,0,1,2,7],
-  [7,7,7,7,7],
-]
+# CREATE EMPTY TILE LIST
+worldData = []
+for row in range(constants.ROWS):
+  r = [-1] * constants.COLS
+  worldData.append(r)
+# LOAD LEVEL DATA AND CREATE WORLD
+with open("levels/level1_data.csv", newline="") as csvfile:
+  reader = csv.reader(csvfile, delimiter = ",")
 
 
 world = World()
