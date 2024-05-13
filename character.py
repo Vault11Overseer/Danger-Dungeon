@@ -20,6 +20,7 @@ class Character():
         self.rect.center = (x,y)
 
     def move(self, dx, dy):
+      screenScroll = [0,0]
       self.running = False
 
       if dx != 0 or dy != 0:
@@ -37,6 +38,33 @@ class Character():
       
       self.rect.x += dx
       self.rect.y += dy
+  
+      # LOGIC ONLY APPLIES TO PLAYER
+       #logic only applicable to player
+      if self.charType == 0:
+        #update scroll based on player position
+        #move camera left and right
+        if self.rect.right > (constants.SCREEN_WIDTH - constants.SCROLL_THRESH):
+          screenScroll[0] = (constants.SCREEN_WIDTH - constants.SCROLL_THRESH) - self.rect.right
+          self.rect.right = constants.SCREEN_WIDTH - constants.SCROLL_THRESH
+        if self.rect.left < constants.SCROLL_THRESH:
+          screenScroll[0] = constants.SCROLL_THRESH - self.rect.left
+          self.rect.left = constants.SCROLL_THRESH
+
+        #move camera up and down
+        if self.rect.bottom > (constants.SCREEN_HEIGHT - constants.SCROLL_THRESH):
+          screenScroll[1] = (constants.SCREEN_HEIGHT - constants.SCROLL_THRESH) - self.rect.bottom
+          self.rect.bottom = constants.SCREEN_HEIGHT - constants.SCROLL_THRESH
+        if self.rect.top < constants.SCROLL_THRESH:
+          screenScroll[1] = constants.SCROLL_THRESH - self.rect.top
+          self.rect.top = constants.SCROLL_THRESH
+
+      return screenScroll
+    
+
+    def ai(self, screenScroll):
+      self.rect.x += screenScroll[0]
+      self.rect.y += screenScroll[1]
 
 
     def update(self):

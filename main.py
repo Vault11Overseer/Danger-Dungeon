@@ -1,4 +1,5 @@
 import pygame
+import csv
 from pygame.display import set_allow_screensaver
 from pygame.sprite import GroupSingle
 import constants
@@ -18,8 +19,8 @@ pygame.display.set_caption("Danger Dungeon")
 clock = pygame.time.Clock()
 
 # DEFINE GAME VARIABLES
-level1 = 1
-
+level = 1
+screenScroll = [0,0]
 
 
 # DEFINE PLAYER MOVEMENT
@@ -108,9 +109,11 @@ for row in range(constants.ROWS):
   r = [-1] * constants.COLS
   worldData.append(r)
 # LOAD LEVEL DATA AND CREATE WORLD
-with open("levels/level1_data.csv", newline="") as csvfile:
+with open(f"levels/level{level}_data.csv", newline="") as csvfile:
   reader = csv.reader(csvfile, delimiter = ",")
-
+  for x, row in enumerate(reader):
+    for y, tile in enumerate(row):
+      worldData[x][y] = int(tile)
 
 world = World()
 world.processData(worldData, tileList)
@@ -131,6 +134,8 @@ class DamageText(pygame.sprite.Sprite):
     self.counter = 0
 
   def update(self):
+    self.rect.x += screenScroll[0]
+    self.rect.y += screenScroll[1]
     # MOVE DAMAGE TEXT UP
     self.rect.y -= 1
     # DELETE THE COUNTER AFTER A FEW SECONDS
@@ -139,10 +144,10 @@ class DamageText(pygame.sprite.Sprite):
       self.kill()
 
 # CREATE PLAYER
-player = Character(100, 100,70, mob_animations, 0)
+player = Character(400, 300,70, mob_animations, 0)
 
 # CREATE ENEMY
-enemy = Character(200,300,100, mob_animations, 1)
+enemy = Character(300,300,100, mob_animations, 1)
 
 # CREATE PLAYERS Weapon
 bow = Weapon(bowImage, arrowImage)
@@ -159,7 +164,7 @@ arrow_group = pygame.sprite.Group()
 
 itemGroup = pygame.sprite.Group()
 
-scoreCoin = Item(constants.SCREEN_WIDTH - 115, 23, 0, coinImages)
+scoreCoin = Item(constants.SCREEN_WIDTH - 115, 23, 0, coinImages, True)
 itemGroup.add(scoreCoin)
 
 potion = Item(200, 200, 1,[red_potion])
@@ -194,9 +199,10 @@ while run:
 
   
   # UPDATE PLAYER POSITION
-  player.move(dx, dy)
+  screenScroll = player.move(dx, dy)
 
-  # UPDATE player
+  # UPDATE all objects
+  world.update(screenScroll)
   for enemy in enemy_group:
     enemy.update()
   player.update()
@@ -209,12 +215,13 @@ while run:
       damageText = DamageText(damagePos.centerx, damagePos.centery, str(damage), constants.RED)
       damage_text_group.add(damageText)
   damage_text_group.update()
-  itemGroup.update(player)
+  itemGroup.update(screenScroll, player)
 
 
   # DRAW PLAYER ON SCRREN
   world.draw(screen)
   for enemy in enemy_group:
+    enemy.ai(screenScroll)
     enemy.draw(screen)
   player.draw(screen)
   bow.draw(screen)

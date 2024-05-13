@@ -1,7 +1,7 @@
 import pygame
 
 class Item(pygame.sprite.Sprite):
-  def __init__(self, x, y, itemType, animationList):
+  def __init__(self, x, y, itemType, animationList, dummyCoin = False):
     pygame.sprite.Sprite.__init__(self)
     self.itemType = itemType
     self.animationList = animationList
@@ -10,8 +10,15 @@ class Item(pygame.sprite.Sprite):
     self.image = self.animationList[self.frameIndex]
     self.rect = self.image.get_rect()
     self.rect.center = (x,y)
+    self.dummyCoin = dummyCoin
 
-  def update(self, player):
+  def update(self, screenScroll, player):
+    # DOESN'T APPLY TO THE DUMMY COIN
+    if not self.dummyCoin:
+      # REPOSITION BASED ON SCREEN SCROLL
+      self.rect.x += screenScroll[0]
+      self.rect.y += screenScroll[1]
+
     if self.rect.colliderect(player.rect):
       # COIN COLLECTED
       if self.itemType == 0:
