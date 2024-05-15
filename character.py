@@ -3,7 +3,7 @@ import constants
 import math
 
 class Character():
-    def __init__(self, x, y, health, mob_animations, charType):
+    def __init__(self, x, y, health, mob_animations, charType, boss):
         self.flip = False
         self.charType = charType
         self.score = 0

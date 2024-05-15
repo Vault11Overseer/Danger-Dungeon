@@ -45,16 +45,18 @@ class Arrow(pygame.sprite.Sprite):
     self.rect.center = (x,y)
     # CALCULATE MOVEMENT SPEED BASED ON ANGLE
     self.dx = math.cos(math.radians(self.angle)) * constants.ARROW_SPEED
-    self.dy = -(math.sin(math.radians(self.angle)) * constants.ARROW_SPEED) # NEGATIVE BECAUSE PYGAME COORDINANTES FOR Y ARE FLIPPED OR NEGATVE
+    # NEGATIVE BECAUSE PYGAME COORDINANTES FOR Y ARE FLIPPED OR NEGATVE
 
-  def update(self, enemy_group):
+    self.dy = -(math.sin(math.radians(self.angle)) * constants.ARROW_SPEED) 
+    
+  def update(self, screenScroll, enemy_group):
     # RESET VARIABLES
     damage = 0
     damagePos = None
     
     # REPOSITION BASED ON SPEED
-    self.rect.x +=  self.dx    
-    self.rect.y +=  self.dy
+    self.rect.x += screenScroll[0] + self.dx    
+    self.rect.y += screenScroll[1] + self.dy
 
     # CHECK IF ARROW HAS GONE OFF SCREEN
     if self.rect.right < 0 or self.rect.left > constants.SCREEN_WIDTH or self.rect.bottom < 0 or self.rect.top > constants.SCREEN_HEIGHT:
