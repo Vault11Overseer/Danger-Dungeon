@@ -14,10 +14,10 @@ pygame.init()
 screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
 pygame.display.set_caption("Dungeon Crawler")
 
-#create clock for maintaining frame rate
+# CREATE CLOCK FOR MAINTIANING FRAME RATE
 clock = pygame.time.Clock()
 
-#define game variables
+# DEFINE GAME VARIABLES
 level = 1
 start_game = False
 pause_game = False
