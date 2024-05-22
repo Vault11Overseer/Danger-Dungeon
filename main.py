@@ -24,15 +24,16 @@ pause_game = False
 start_intro = False
 screen_scroll = [0, 0]
 
-#define player movement variables
+# DEFINE PLAYERS MOVEMENT VARIABLES
 moving_left = False
 moving_right = False
 moving_up = False
 moving_down = False
 
-#define font
+# DEFINE FONT
 font = pygame.font.Font("assets/fonts/AtariClassic.ttf", 20)
 
+# HELPER FUNCTION TO SCALE THE IMAGES
 #helper function to scale image
 def scale_img(image, scale):
   w = image.get_width()
