@@ -1,5 +1,6 @@
 import pygame
 
+# ITEMS CLASS
 class Item(pygame.sprite.Sprite):
   def __init__(self, x, y, item_type, animation_list, dummy_coin = False):
     pygame.sprite.Sprite.__init__(self)
@@ -12,6 +13,7 @@ class Item(pygame.sprite.Sprite):
     self.rect.center = (x, y)
     self.dummy_coin = dummy_coin
 
+  # UPDATE CLASS
   def update(self, screen_scroll, player, coin_fx, heal_fx):
     #doesn't apply to the dummy coin that is always displayed at the top of the screen
     if not self.dummy_coin:

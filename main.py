@@ -8,9 +8,11 @@ from items import Item
 from world import World
 from button import Button
 
+# MIXER AND PYGAME INITIALIZE
 mixer.init()
 pygame.init()
 
+# FIX  MAIN GAME SCREEN AND DISPLAY NAME
 screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT))
 pygame.display.set_caption("Dungeon Crawler")
 
@@ -34,13 +36,12 @@ moving_down = False
 font = pygame.font.Font("assets/fonts/AtariClassic.ttf", 20)
 
 # HELPER FUNCTION TO SCALE THE IMAGES
-#helper function to scale image
 def scale_img(image, scale):
   w = image.get_width()
   h = image.get_height()
   return pygame.transform.scale(image, (w * scale, h * scale))
 
-#load music and sounds
+# LOAD AUDIO
 pygame.mixer.music.load("assets/audio/music.wav")
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1, 0.0, 5000)
@@ -53,13 +54,13 @@ coin_fx.set_volume(0.5)
 heal_fx = pygame.mixer.Sound("assets/audio/heal.wav")
 heal_fx.set_volume(0.5)
 
-#load button images
+# LOAD BUTTON IMAGES
 start_img = scale_img(pygame.image.load("assets/images/buttons/button_start.png").convert_alpha(), constants.BUTTON_SCALE)
 exit_img = scale_img(pygame.image.load("assets/images/buttons/button_exit.png").convert_alpha(), constants.BUTTON_SCALE)
 restart_img = scale_img(pygame.image.load("assets/images/buttons/button_restart.png").convert_alpha(), constants.BUTTON_SCALE)
 resume_img = scale_img(pygame.image.load("assets/images/buttons/button_resume.png").convert_alpha(), constants.BUTTON_SCALE)
 
-#load heart images
+# LOAD HEART IMAGES
 heart_empty = scale_img(pygame.image.load("assets/images/items/heart_empty.png").convert_alpha(), constants.ITEM_SCALE)
 heart_half = scale_img(pygame.image.load("assets/images/items/heart_half.png").convert_alpha(), constants.ITEM_SCALE)
 heart_full = scale_img(pygame.image.load("assets/images/items/heart_full.png").convert_alpha(), constants.ITEM_SCALE)
