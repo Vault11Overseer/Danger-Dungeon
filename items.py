@@ -21,9 +21,9 @@ class Item(pygame.sprite.Sprite):
       self.rect.x += screen_scroll[0]
       self.rect.y += screen_scroll[1]
 
-    #check to see if item has been collected by the player
+    # CHECK TO SEE IF THE ITEM HAS BEEN COLLECTED BY THE PLAYER
     if self.rect.colliderect(player.rect):
-      #coin collected
+      # COIN COLLECTED
       if self.item_type == 0:
         player.score += 1
         coin_fx.play()
@@ -34,8 +34,9 @@ class Item(pygame.sprite.Sprite):
           player.health = 100
       self.kill()
 
-    #handle animation
+    # HANDLE ANIMATION
     animation_cooldown = 150
+    UPDATE 
     #update image
     self.image = self.animation_list[self.frame_index]
     #check if enough time has passed since the last update
