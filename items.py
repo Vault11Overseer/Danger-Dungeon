@@ -15,9 +15,9 @@ class Item(pygame.sprite.Sprite):
 
   # UPDATE CLASS
   def update(self, screen_scroll, player, coin_fx, heal_fx):
-    #doesn't apply to the dummy coin that is always displayed at the top of the screen
+    # DOESN'T APPLY TO THE DUMMY COIN THAT IS ALWAYS DISPLAYED AT THE TOP OF THE SCREEN
     if not self.dummy_coin:
-      #reposition based on screen scroll
+      # REPOSITION BASED ON SCREEN SCROLL
       self.rect.x += screen_scroll[0]
       self.rect.y += screen_scroll[1]
 

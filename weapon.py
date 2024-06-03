@@ -22,7 +22,7 @@ class Weapon():
 
     pos = pygame.mouse.get_pos()
     x_dist = pos[0] - self.rect.centerx
-    y_dist = -(pos[1] - self.rect.centery)#-ve because pygame y coordinates increase down the screen
+    y_dist = -(pos[1] - self.rect.centery)# NEGATIVE FOR PYTHON Y COORDINATES
     self.angle = math.degrees(math.atan2(y_dist, x_dist))
 
     # GET MOUSE CLICK
@@ -50,9 +50,9 @@ class Arrow(pygame.sprite.Sprite):
     self.image = pygame.transform.rotate(self.original_image, self.angle - 90)
     self.rect = self.image.get_rect()
     self.rect.center = (x, y)
-    #calculate the horizontal and vertical speeds based on the angle
+    # CALCULATE THE HORIZONTAL AND VERTICAL SPEEDS BASED ON THEIR ANGLE
     self.dx = math.cos(math.radians(self.angle)) * constants.ARROW_SPEED
-    self.dy = -(math.sin(math.radians(self.angle)) * constants.ARROW_SPEED)#-ve because pygame y coordiate increases down the screen
+    self.dy = -(math.sin(math.radians(self.angle)) * constants.ARROW_SPEED)# NEGATIVE FOR PYTHON Y COORDINATES
 
 
   def update(self, screen_scroll, obstacle_tiles, enemy_list):
@@ -73,7 +73,7 @@ class Arrow(pygame.sprite.Sprite):
     if self.rect.right < 0 or self.rect.left > constants.SCREEN_WIDTH or self.rect.bottom < 0 or self.rect.top > constants.SCREEN_HEIGHT:
       self.kill()
 
-    #check collision between arrow and enemies
+    # CHECK COLLISON BETWEEN ARROW AND ENEMIES
     for enemy in enemy_list:
       if enemy.rect.colliderect(self.rect) and enemy.alive:
         damage = 10 + random.randint(-5, 5)
@@ -88,7 +88,7 @@ class Arrow(pygame.sprite.Sprite):
   def draw(self, surface):
     surface.blit(self.image, ((self.rect.centerx - int(self.image.get_width()/2)), self.rect.centery - int(self.image.get_height()/2)))
 
-
+# FIRE CLASS
 class Fireball(pygame.sprite.Sprite):
   def __init__(self, image, x, y, target_x, target_y):
     pygame.sprite.Sprite.__init__(self)
@@ -99,21 +99,21 @@ class Fireball(pygame.sprite.Sprite):
     self.image = pygame.transform.rotate(self.original_image, self.angle - 90)
     self.rect = self.image.get_rect()
     self.rect.center = (x, y)
-    #calculate the horizontal and vertical speeds based on the angle
+    # CALCULATE THE HORIZONTAL AND VERTICAL SPEEDS BASED ON THE ANGLE
     self.dx = math.cos(math.radians(self.angle)) * constants.FIREBALL_SPEED
-    self.dy = -(math.sin(math.radians(self.angle)) * constants.FIREBALL_SPEED)#-ve because pygame y coordiate increases down the screen
+    self.dy = -(math.sin(math.radians(self.angle)) * constants.FIREBALL_SPEED)#- NEGATIVE FOR PYTHON Y COORDINATES
 
 
   def update(self, screen_scroll, player):
-    #reposition based on speed
+    # REPOSITION BASED ON SPEED
     self.rect.x += screen_scroll[0] + self.dx
     self.rect.y += screen_scroll[1] + self.dy
 
-    #check if fireball has gone off screen
+    # CHECK IF THE FIREBALL HAS GONE OFF THE SCREEN
     if self.rect.right < 0 or self.rect.left > constants.SCREEN_WIDTH or self.rect.bottom < 0 or self.rect.top > constants.SCREEN_HEIGHT:
       self.kill()
 
-    #check collision between self and player
+    # CHECK COLLISION BETWEEN SELF AND PLAYER
     if player.rect.colliderect(self.rect) and player.hit == False:
       player.hit = True
       player.last_hit = pygame.time.get_ticks()
