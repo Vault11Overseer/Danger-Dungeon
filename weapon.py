@@ -3,6 +3,7 @@ import math
 import random
 import constants
 
+# WEAPON CLASS/
 class Weapon():
   def __init__(self, image, arrow_image):
     self.original_image = image
@@ -12,7 +13,7 @@ class Weapon():
     self.rect = self.image.get_rect()
     self.fired = False
     self.last_shot = pygame.time.get_ticks()
-
+  # UPDATE WEAPON CLASS
   def update(self, player):
     shot_cooldown = 300
     arrow = None
@@ -24,12 +25,12 @@ class Weapon():
     y_dist = -(pos[1] - self.rect.centery)#-ve because pygame y coordinates increase down the screen
     self.angle = math.degrees(math.atan2(y_dist, x_dist))
 
-    #get mouseclick
+    # GET MOUSE CLICK
     if pygame.mouse.get_pressed()[0] and self.fired == False and (pygame.time.get_ticks() - self.last_shot) >= shot_cooldown:
       arrow = Arrow(self.arrow_image, self.rect.centerx, self.rect.centery, self.angle)
       self.fired = True
       self.last_shot = pygame.time.get_ticks()
-    #reset mouseclick
+    # RESET MOUSE CLICK
     if pygame.mouse.get_pressed()[0] == False:
       self.fired = False
 
@@ -55,20 +56,20 @@ class Arrow(pygame.sprite.Sprite):
 
 
   def update(self, screen_scroll, obstacle_tiles, enemy_list):
-    #reset variables
+    # RESET VARIABLES
     damage = 0
     damage_pos = None
 
-    #reposition based on speed
+    # REPOSITION BASED ON SPEED
     self.rect.x += screen_scroll[0] + self.dx
     self.rect.y += screen_scroll[1] + self.dy
 
-    #check for collision between arrow and tile walls
+    # CHECK FOR COLLISION BETWEEN ARROW AND TILE WALLS
     for obstacle in obstacle_tiles:
       if obstacle[1].colliderect(self.rect):
         self.kill()
 
-    #check if arrow has gone off screen
+    # CHECK IF ARROW HAS GONE OFF SCREEN
     if self.rect.right < 0 or self.rect.left > constants.SCREEN_WIDTH or self.rect.bottom < 0 or self.rect.top > constants.SCREEN_HEIGHT:
       self.kill()
 
