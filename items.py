@@ -37,13 +37,13 @@ class Item(pygame.sprite.Sprite):
     # HANDLE ANIMATION
     animation_cooldown = 150
     UPDATE 
-    #update image
+    # UPDATE IMAGE
     self.image = self.animation_list[self.frame_index]
-    #check if enough time has passed since the last update
+    # CHECK IF ENOUGH TIME HAS PASSED SINCE THE LAST UPDATE
     if pygame.time.get_ticks() - self.update_time > animation_cooldown:
       self.frame_index += 1
       self.update_time = pygame.time.get_ticks()
-    #check if the animation has finished
+    # CHECK IF THE ANIMATION HAS FINISHED
     if self.frame_index >= len(self.animation_list):
       self.frame_index = 0
 

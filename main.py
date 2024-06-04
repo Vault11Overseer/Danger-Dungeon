@@ -254,7 +254,7 @@ world_data = []
 for row in range(constants.ROWS):
   r = [-1] * constants.COLS
   world_data.append(r)
-#load in level data and create world
+# LOAD LEVEL IN LEVEL DATA AND CREATE WORLD
 with open(f"levels/level{level}_data.csv", newline="") as csvfile:
   reader = csv.reader(csvfile, delimiter=",")
   for x, row in enumerate(reader):
