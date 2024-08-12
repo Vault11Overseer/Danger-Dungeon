@@ -1,18 +1,16 @@
 # TITLE
 **Danger Dungeon**
 
-  **CURRENT_STATUS = LIVE**
+  **CURRENT_STATUS = PRODUCTION**
   
   ## Short Description
-  Dungeon crawler game in Python.
-
-  Using PyGame, trying to decide if I need Python 2 and Pygame
+  Dungeon crawler is a game made in Python.
   
   ## Long Description
-
+  You must make your way through the tunnels of ancient Paris to the catacombs to save your future.
   
   ## Demonstration
-  This project is live @ [https://alteredart.dev/Particles/](https://alteredart.dev/Particles/)
+  There is no current demonstration at the moment.
 
 
 # STATUS
@@ -20,8 +18,8 @@
 
   ## REQUIREMENTS
   OS: N/A
-  Languages: JavaScript 
-  Libraries: None
+  Languages: Python
+  Libraries: PyGame
   Extra: None
 
   ## Cloning
@@ -31,16 +29,14 @@
   
   ## Setup
   **How to download all needed libraries and set up this project.**
-  PARTICLES WAS BUILT USING HTML CANVAS WITH JAVASCRIPT CTX TO DRAW UPON THE HTML CANVAS. THIS IS A STAND ALONE PROJECT. CLASS-BASED JAVASCRIPT IS BEING USED IN THE BACKGROUND.
+  This project is still in development and is not available for setup at the moment.
 
 # Future Development
 **This is a breakdown of all future development including issues, bugs, and even new features.**
 
   ## Future development
   **All future development plans.**
-  SIMPLY GIT CLONE OR DOWNLOAD THE ZIP FOLDER.
-  SINCE THIS PROJECT IS SIMPLE HTML AND JAVASCRIPT THERE ARE NO LIBRARIES OR
-  DEPENDENCIES TO ADD. SIMPLY START A LIVE SERVER
+  Work out and list all issues
   
   ## Can you help
   **See if you can help.**
@@ -48,7 +44,7 @@
 
   ## Known Bugs
   **This is a list of all known bugs**
-  There are no known issues at this point.
+  There are issues but none are listed at this moment.
   
   ## Did you find a bug?
   **If you happen to find a bug, please contact me at cherokeedreemer@gmail.com, or push the fixes as a git gommit and I will review the changes. Thank you**
