@@ -3,11 +3,13 @@
 
   **CURRENT_STATUS = PRODUCTION**
   
-  ## Short Description
-  Dungeon crawler is a game made in Python.
+  ## Description
+  Welcome to Danger Dungeon, your castle is under attack. 
+  You must fight your way back to the castle gates and fight the enemies back.
+  Danger Dungeon You must make your way through the tunnels of ancient Paris to the catacombs to save your future.
   
-  ## Long Description
-  You must make your way through the tunnels of ancient Paris to the catacombs to save your future.
+  # LEVEL 1
+  Start by starting your way through p[urgatory.
   
   ## Demonstration
   There is no current demonstration at the moment.
