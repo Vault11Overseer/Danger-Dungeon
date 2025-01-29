@@ -4,21 +4,21 @@ import math
 
 class Character():
     def __init__(self, x, y, animation_list):
-        self.char_type = char_type
-        self.boss = boss
-        self.score = 0
+    #     self.char_type = char_type
+    #     self.boss = boss
+    #     self.score = 0
         self.flip = False
-        self.animation_list = mob_animations[char_type]
+        self.animation_list = animation_list
         self.frame_index = 0
-        self.action = 0#0:idle, 1:run
+    #     self.action = 0#0:idle, 1:run
         self.update_time = pygame.time.get_ticks()
-        self.running = False
-        self.health = health
-        self.alive = True
-        self.hit = False
-        self.last_hit = pygame.time.get_ticks()
-        self.last_attack = pygame.time.get_ticks()
-        self.stunned = False
+    #     self.running = False
+    #     self.health = health
+    #     self.alive = True
+    #     self.hit = False
+    #     self.last_hit = pygame.time.get_ticks()
+    #     self.last_attack = pygame.time.get_ticks()
+    #     self.stunned = False
 
         self.image = self.animation_list[self.action][self.frame_index]
         self.rect = pygame.Rect(0, 0, constants.TILE_SIZE * size, constants.TILE_SIZE * size)
@@ -31,7 +31,7 @@ class Character():
         if dy < 0:
             self.flip = False
             
-        # CONTORL DIAGONAL SPEED
+        # CONTROL DIAGONAL SPEED
         if dx != 0 and dy != 0 :
             dx = dx * (math.sqrt(2)/2)
             dy = dy * (math.sqrt(2)/2)
@@ -40,6 +40,16 @@ class Character():
         # ADJUST PLAYER FOR MOVEMENT
         self.rect.x += dx
         self.rect.y += dy         
+        
+    def update(self):
+        animation_cooldown = 70
+        #HANDLE ANIMATION SPEED
+        self.image = self.animation_list[self.frame_index]
+        # CHECK IF ENOUGH TIME HAS PASSED SINCE THE LAST UPDATE
+        if pygame.time.get_ticks() - self.update_time > animation_cooldown:
+            self.frame_index += 1
+            self.update_time = pygame.time.get_ticks()      
+        # CHECK IF THE ANIMATION HAS FLIPPED
         
     def draw(self, surface):
         flipped_image = pygame.transform.flip(self.image, self.flip, False)
