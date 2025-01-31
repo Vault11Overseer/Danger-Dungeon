@@ -29,14 +29,24 @@ def scale_img(image, scale):
     h = image.get_height()
     return pygame.transform.scale(image, (w  * scale, h * scale))
 
+
+
 # BODY MOVEMENT ANIMATION
 animation_list = []
+animation_types = ["idle", "run"]
+
 
 # LOAD PLAYER
-for i in range(4):
-    img = pygame.image.load(f"assets/images/characters/elf/idle/{i}.png").convert_alpha()
-    img = scale_img(img, constants.SCALE)
-    animation_list.append(img)
+for animation in animation_types:
+    # RESET TEMPORARY LIST
+    temp_list = []
+    for i in range(4):
+        img = pygame.image.load(f"assets/images/characters/elf/{animation}/{i}.png").convert_alpha()
+        img = scale_img(img, constants.SCALE)
+        temp_list.append(img)
+    animation_list.append(temp_list)
+    
+print(animation_list)
     
 # CREATE PLAYER
 player = Character(100, 100, animation_list)
