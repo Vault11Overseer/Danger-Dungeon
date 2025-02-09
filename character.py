@@ -20,7 +20,7 @@ class Character():
     #     self.last_attack = pygame.time.get_ticks()
     #     self.stunned = False
 
-        self.image = self.animation_list[self.action][self.frame_index]
+        self.image = animation_list[self.action][self.frame_index]
         # self.rect = pygame.Rect(0, 0, constants.TILE_SIZE * size, constants.TILE_SIZE * size)
         self.rect = pygame.Rect(0, 0, 40, 40)
         
