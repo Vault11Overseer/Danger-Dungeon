@@ -32,24 +32,35 @@ def scale_img(image, scale):
 
 
 # BODY MOVEMENT ANIMATION
-animation_list = []
 animation_types = ["idle", "run"]
 
+# LOAD CHARACTER IMAGES
+mob_animations = []
+mob_types = ["elf", "imp", "skeleton", "goblin", "muddy", "tiny_zombie", "big_demon"]
 
-# LOAD PLAYER
-for animation in animation_types:
-    # RESET TEMPORARY LIST
-    temp_list = []
-    for i in range(4):
-        img = pygame.image.load(f"assets/images/characters/elf/{animation}/{i}.png").convert_alpha()
-        img = scale_img(img, constants.SCALE)
-        temp_list.append(img)
-    animation_list.append(temp_list)
+# LOAD MOB
+for mob in mob_types: 
+      
+    # LOAD PLAYER
+    animation_list = []
     
-print(animation_list)
+    for animation in animation_types:
+        # RESET TEMPORARY LIST
+        temp_list = []
+        for i in range(4):
+            img = pygame.image.load(f"assets/images/characters/{mob}/{animation}/{i}.png").convert_alpha()
+            img = scale_img(img, constants.SCALE)
+            temp_list.append(img)
+        animation_list.append(temp_list)
+    mob_animations.append(animation_list)
+    # ANIMATION LIST (TESTING)
+    # print(animation_list)
+
+
+
     
 # CREATE PLAYER
-player = Character(100, 100, animation_list)
+player = Character(100, 100, mob_animations, 2)
 
 
 # MAIN GAME LOOP        
