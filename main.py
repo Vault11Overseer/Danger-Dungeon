@@ -2,7 +2,7 @@ import pygame
 # from pygame import mixer      
 import constants
 from character import Character
-
+from weapon import Weapon
 
 
 # MIXER & PYGAME INITIALIZED
@@ -29,6 +29,8 @@ def scale_img(image, scale):
     h = image.get_height()
     return pygame.transform.scale(image, (w  * scale, h * scale))
 
+# LOAD WEAPON IMAGES
+bow_image = pygame.image.load("assets/images/weapons/bow.png").convert_alpha()
 
 
 # BODY MOVEMENT ANIMATION
@@ -62,6 +64,8 @@ for mob in mob_types:
 # CREATE PLAYER
 player = Character(100, 100, mob_animations, 2)
 
+# CREATE PLAYER WEAPON
+bow = Weapon()
 
 # MAIN GAME LOOP        
 run = True
