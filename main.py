@@ -29,8 +29,9 @@ def scale_img(image, scale):
     h = image.get_height()
     return pygame.transform.scale(image, (w  * scale, h * scale))
 
-# LOAD WEAPON IMAGES
-bow_image = pygame.image.load("assets/images/weapons/bow.png").convert_alpha()
+# LOAD BOW & ARROW IMAGES / AND SCALE
+bow_image = scale_img(pygame.image.load("assets/images/weapons/bow.png").convert_alpha(), constants.WEAPON_SCALE)
+arrow_image = scale_img(pygame.image.load("assets/images/weapons/arrow.png").convert_alpha(), constants.WEAPON_SCALE)
 
 
 # BODY MOVEMENT ANIMATION
@@ -62,10 +63,14 @@ for mob in mob_types:
 
     
 # CREATE PLAYER
-player = Character(100, 100, mob_animations, 2)
+player = Character(100, 100, mob_animations, 0)
 
-# CREATE PLAYER WEAPON
-bow = Weapon()
+# CREATE PLAYER WEAPON - THIS IS THE MAIN PASS IN POINT FOR THE ARROW TO WEAPON CLASS
+bow = Weapon(bow_image, arrow_image)
+
+
+# CREATE SPRITE GROUPS
+arrow_group = pygame.sprite.Group()
 
 # MAIN GAME LOOP        
 run = True
@@ -100,10 +105,21 @@ while run:
     
     # UPDATE PLAYER
     player.update()
-     
-    # DRAW PLAYER ON SCREEN
-    player.draw(screen)
+    arrow = bow.update(player)
+    # CHECK IF ARROWS EXIST IN ARROW GROUP
+    if arrow:
+        arrow_group.add(arrow)
+    for arrow in arrow_group:
+        arrow.update()    
+    print(arrow_group)
     
+     
+    # DRAW PLAYER & WEAPON ON SCREEN
+    player.draw(screen)
+    bow.draw(screen)
+    # ACCESS ARROW GROUP
+    for arrow in arrow_group:
+        arrow.draw(screen)
     
     # EVENT HANDLER
     for event in pygame.event.get():

@@ -4,7 +4,7 @@ import math
 
 class Character():
     def __init__(self, x, y, mob_animations, char_type):
-    #     self.char_type = char_type
+        self.char_type = char_type
     #     self.boss = boss
     #     self.score = 0
         self.flip = False
@@ -78,5 +78,10 @@ class Character():
         
     def draw(self, surface):
         flipped_image = pygame.transform.flip(self.image, self.flip, False)
-        surface.blit(flipped_image, self.rect)
+        # CREATE OFFSET FOR ELF CHARACTER BECUASE OF SPACE ABOVE SPRITE
+        if self.char_type == 0:
+            surface.blit(flipped_image, (self.rect.x, self.rect.y - constants.SCALE * constants.OFFSET))
+        # ELSE DRAW EVERY OTHER CHARACTER AS IS    
+        else:    
+            surface.blit(flipped_image, self.rect)
         pygame.draw.rect(surface,constants.RED, self.rect, 1)

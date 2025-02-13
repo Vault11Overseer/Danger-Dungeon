@@ -35,3 +35,5 @@ RED = (255, 0, 0)
 BG = (40, 25, 25)
 MENU_BG = (130, 0, 0)
 PANEL = (50, 50, 50)
+
+SHOT_COOLDOWN = 300
