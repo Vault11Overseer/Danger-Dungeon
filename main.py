@@ -65,6 +65,9 @@ for mob in mob_types:
 # CREATE PLAYER
 player = Character(100, 100, mob_animations, 0)
 
+# CREATE ENEMY
+enemy = Character(200, 300, mob_animations, 1)
+
 # CREATE PLAYER WEAPON - THIS IS THE MAIN PASS IN POINT FOR THE ARROW TO WEAPON CLASS
 bow = Weapon(bow_image, arrow_image)
 
