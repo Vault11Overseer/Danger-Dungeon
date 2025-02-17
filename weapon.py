@@ -1,6 +1,7 @@
 import pygame
 import math
 import constants
+import random
 
 
 class Weapon():
@@ -69,14 +70,20 @@ class Arrow(pygame.sprite.Sprite):
         self.dy = math.sin(math.radians(self.angle)) * constants.ARROW_SPEED
         
         
-    def update(self):
+    def update(self, enemy_list):
         # REPOSITION ARROW BASED ON SPEED
         self.rect.x += self.dx
         self.rect.y += self.dy     
         # CHECK IF ARROW HAS GONE OFF SCREEN
         if self.rect.right < 0 or self.rect.left > constants.SCREEN_WIDTH or self.rect.bottom < 0 or self.rect.top > constants.SCREEN_HEIGHT:
             self.kill()
-            
+        # CHECK COLLISION BETWEEN ARROW AND ENEMIES
+        for enemy in enemy_list:
+            if enemy.rect.colliderect(self.rect) and enemy.alive:
+                damage = 10 + random.randint(-5, 5)
+                enemy.health -= damage
+                self.kill()
+                break
              
         
     def draw(self, surface):

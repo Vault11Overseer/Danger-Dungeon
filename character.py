@@ -3,7 +3,7 @@ import constants
 import math
 
 class Character():
-    def __init__(self, x, y, mob_animations, char_type):
+    def __init__(self, x, y, health, mob_animations, char_type):
         self.char_type = char_type
     #     self.boss = boss
     #     self.score = 0
@@ -13,29 +13,27 @@ class Character():
         self.action = 0  # 0:idle, 1:run
         self.update_time = pygame.time.get_ticks()
         self.running = False
-    #     self.health = health
-    #     self.alive = True
-    #     self.hit = False
+        self.health = health
+        self.alive = True
+        self.hit = False
     #     self.last_hit = pygame.time.get_ticks()
     #     self.last_attack = pygame.time.get_ticks()
     #     self.stunned = False
-
         self.image = self.animation_list[self.action][self.frame_index]
         # self.rect = pygame.Rect(0, 0, constants.TILE_SIZE * size, constants.TILE_SIZE * size)
         self.rect = pygame.Rect(0, 0, 40, 40)
-        
         self.rect.center = (x, y)
        
     def move(self, dx, dy):
         self.running = False
+        # IS RUNNING
         if dx != 0 or dy != 0:
             self.running = True
-            
             
         # FLIPPING CHARACTER IMAGE FOR TURNING
         if dx < 0:
             self.flip = True
-        if dy < 0:
+        if dx > 0:
             self.flip = False
             
         # CONTROL DIAGONAL SPEED
@@ -49,6 +47,11 @@ class Character():
         self.rect.y += dy         
         
     def update(self):
+        # CHECK IF CHARACTER HEALTH HAS DEPLETED
+        if self.health <= 0:
+            self.health = 0
+            self.alive = False
+            
         # CHECK WHAT ACTION THE PLAYER IS PERFORMING
         if self.running == True:
             self.update_action(1) # RUN
