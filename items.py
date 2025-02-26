@@ -14,7 +14,9 @@ class Item(pygame.sprite.Sprite):
     self.dummy_coin = dummy_coin
 
   # UPDATE CLASS
-  def update(self, screen_scroll, player, coin_fx, heal_fx):
+  # def update(self, screen_scroll, player, coin_fx, heal_fx):
+  def update(self, player):
+    
     # DOESN'T APPLY TO THE DUMMY COIN THAT IS ALWAYS DISPLAYED AT THE TOP OF THE SCREEN
     if not self.dummy_coin:
       # REPOSITION BASED ON SCREEN SCROLL
@@ -26,17 +28,17 @@ class Item(pygame.sprite.Sprite):
       # COIN COLLECTED
       if self.item_type == 0:
         player.score += 1
-        coin_fx.play()
+        # coin_fx.play()
       elif self.item_type == 1:
         player.health += 10
-        heal_fx.play()
+        # heal_fx.play()
         if player.health > 100:
           player.health = 100
       self.kill()
 
     # HANDLE ANIMATION
     animation_cooldown = 150
-    UPDATE 
+    # UPDATE 
     # UPDATE IMAGE
     self.image = self.animation_list[self.frame_index]
     # CHECK IF ENOUGH TIME HAS PASSED SINCE THE LAST UPDATE
