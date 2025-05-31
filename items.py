@@ -1,6 +1,5 @@
 import pygame
 
-# ITEMS CLASS
 class Item(pygame.sprite.Sprite):
   def __init__(self, x, y, item_type, animation_list, dummy_coin = False):
     pygame.sprite.Sprite.__init__(self)
@@ -13,39 +12,35 @@ class Item(pygame.sprite.Sprite):
     self.rect.center = (x, y)
     self.dummy_coin = dummy_coin
 
-  # UPDATE CLASS
-  # def update(self, screen_scroll, player, coin_fx, heal_fx):
-  def update(self, player):
-    
-    # DOESN'T APPLY TO THE DUMMY COIN THAT IS ALWAYS DISPLAYED AT THE TOP OF THE SCREEN
+  def update(self, screen_scroll, player, coin_fx, heal_fx):
+    #doesn't apply to the dummy coin that is always displayed at the top of the screen
     if not self.dummy_coin:
-      # REPOSITION BASED ON SCREEN SCROLL
+      #reposition based on screen scroll
       self.rect.x += screen_scroll[0]
       self.rect.y += screen_scroll[1]
 
-    # CHECK TO SEE IF THE ITEM HAS BEEN COLLECTED BY THE PLAYER
+    #check to see if item has been collected by the player
     if self.rect.colliderect(player.rect):
-      # COIN COLLECTED
+      #coin collected
       if self.item_type == 0:
         player.score += 1
-        # coin_fx.play()
+        coin_fx.play()
       elif self.item_type == 1:
         player.health += 10
-        # heal_fx.play()
+        heal_fx.play()
         if player.health > 100:
           player.health = 100
       self.kill()
 
-    # HANDLE ANIMATION
+    #handle animation
     animation_cooldown = 150
-    # UPDATE 
-    # UPDATE IMAGE
+    #update image
     self.image = self.animation_list[self.frame_index]
-    # CHECK IF ENOUGH TIME HAS PASSED SINCE THE LAST UPDATE
+    #check if enough time has passed since the last update
     if pygame.time.get_ticks() - self.update_time > animation_cooldown:
       self.frame_index += 1
       self.update_time = pygame.time.get_ticks()
-    # CHECK IF THE ANIMATION HAS FINISHED
+    #check if the animation has finished
     if self.frame_index >= len(self.animation_list):
       self.frame_index = 0
 
