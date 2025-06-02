@@ -1,9 +1,6 @@
 import os
+# BYPASS THE AUDIO DIRVER ON LINUX FOR NOW
 os.environ["SDL_AUDIODRIVER"] = "dummy"
-
-
-
-
 import pygame
 from pygame import mixer
 import csv
@@ -14,6 +11,7 @@ from items import Item
 from world import World
 from button import Button
 
+# INITIALIZE
 mixer.init()
 pygame.init()
 
